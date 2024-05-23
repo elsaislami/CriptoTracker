@@ -2,7 +2,9 @@ import React from 'react';
 import { View, Text, Button, StyleSheet, Image } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { removeCrypto } from '../redux/actions/cryptoActions';
-import bitcoin from "../assets/images/profile.jpeg";
+import { formatNumber, getCryptoIcon } from '../utils/numberUtils';
+import {  SvgXml } from 'react-native-svg';
+import PropTypes from 'prop-types';
 
 const CryptoItem = ({ crypto }) => {
   const dispatch = useDispatch();
@@ -11,25 +13,36 @@ const CryptoItem = ({ crypto }) => {
     <View style={styles.container}>
       <View style={styles.row}>
         <View style={styles.row}>
-          <Image source={bitcoin} style={styles.roundedImage} />
+          <SvgXml xml={getCryptoIcon(crypto?.name)} />
           <View style={styles.justifyCenter}>
-            <Text style={styles.fontBold}>Bitcoin</Text>
-            <Text>BTC</Text>
+            <Text style={styles.fontBold}>{crypto?.name}</Text>
+            <Text>{crypto?.symbol}</Text>
           </View>
         </View>
         <View style={styles.alignEnd}>
           <Text style={styles.fontBold}>
-            $ 7,214.68{crypto?.market_data?.price_usd}
+            $ {formatNumber(crypto?.market_data?.price_usd)}
           </Text>
           <Text style={styles.change}>
-            1.82{crypto?.market_data?.percent_change_usd_last_24_hours}%
+            {formatNumber(crypto?.market_data?.percent_change_usd_last_24_hours)}%
           </Text>
         </View>
       </View>
-      <Button title="Remove" onPress={() => dispatch(removeCrypto(crypto.id))} />
+      <Button title="Remove" onPress={() => dispatch(removeCrypto(crypto?.symbol))} />
       <View style={styles.horizontalLine} />
     </View>
   );
+};
+
+CryptoItem.propTypes = {
+  crypto: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    symbol: PropTypes.string.isRequired,
+    market_data: PropTypes.shape({
+      price_usd: PropTypes.number,
+      percent_change_usd_last_24_hours: PropTypes.number,
+    }).isRequired,
+  }).isRequired,
 };
 
 const styles = StyleSheet.create({
@@ -40,14 +53,8 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   row: {
-    display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
-  },
-  roundedImage: {
-    width: 45,
-    height: 45,
-    borderRadius: 50,
   },
   justifyCenter: {
     justifyContent: 'center',
