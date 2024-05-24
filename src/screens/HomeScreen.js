@@ -39,6 +39,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 10,
+    backgroundColor: "#f8f8f8"
   },
   addButton: {
     alignItems: 'center',

@@ -1,19 +1,21 @@
 import React from 'react';
 import { View, Text, Button, StyleSheet, Image } from 'react-native';
 import { useDispatch } from 'react-redux';
-import { removeCrypto } from '../redux/actions/cryptoActions';
-import { formatNumber, getCryptoIcon } from '../utils/numberUtils';
-import {  SvgXml } from 'react-native-svg';
+// import { removeCrypto } from '../redux/actions/cryptoActions';
+import { formatNumber } from '../utils/numberUtils';
 import PropTypes from 'prop-types';
+// import Crypto from 'rn-crypto-icons-svg'
+import CryptoIcon from 'rn-crypto-icons-svg';
+
 
 const CryptoItem = ({ crypto }) => {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   return (
     <View style={styles.container}>
       <View style={styles.row}>
         <View style={styles.row}>
-          <SvgXml xml={getCryptoIcon(crypto?.name)} />
+        <CryptoIcon name={crypto?.symbol?.toLowerCase()} size={48} shape='circular' />
           <View style={styles.justifyCenter}>
             <Text style={styles.fontBold}>{crypto?.name}</Text>
             <Text>{crypto?.symbol}</Text>
@@ -28,7 +30,7 @@ const CryptoItem = ({ crypto }) => {
           </Text>
         </View>
       </View>
-      <Button title="Remove" onPress={() => dispatch(removeCrypto(crypto?.symbol))} />
+      {/* <Button title="Remove" onPress={() => dispatch(removeCrypto(crypto?.symbol))} /> */}
       <View style={styles.horizontalLine} />
     </View>
   );
@@ -47,7 +49,7 @@ CryptoItem.propTypes = {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 20,
+    padding: 10,
     marginVertical: 5,
     backgroundColor: '#f8f8f8',
     borderRadius: 5,
@@ -55,6 +57,7 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: "center"
   },
   justifyCenter: {
     justifyContent: 'center',
@@ -75,7 +78,7 @@ const styles = StyleSheet.create({
   horizontalLine: {
     borderBottomColor: '#ccc',
     borderBottomWidth: 1,
-    marginTop: 10,
+    marginTop: 20,
   },
 });
 
