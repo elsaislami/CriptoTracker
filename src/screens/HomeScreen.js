@@ -11,11 +11,19 @@ const HomeScreen = () => {
   const navigation = useNavigation();
 
   useEffect(() => {
-    cryptos.forEach(crypto => {
-      if (!crypto.data) {
-        dispatch(fetchCryptoData(crypto.id));
-      }
-    });
+    const fetchData = () => {
+      cryptos.forEach(crypto => {
+        if (!crypto.data) {
+          dispatch(fetchCryptoData(crypto.id));
+        }
+      });
+    };
+
+    fetchData();
+
+    const intervalId = setInterval(fetchData, 86400000);
+
+    return () => clearInterval(intervalId);
   }, [cryptos, dispatch]);
 
   return (

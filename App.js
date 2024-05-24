@@ -7,6 +7,7 @@ import HomeScreen from './src/screens/HomeScreen';
 import { enableScreens } from 'react-native-screens';
 import CryptoHeader from './src/components/CryptoHeader';
 import AddCrypto from './src/components/AddCrypto';
+import CryptoDetails from './src/screens/CryptoDetailsScreen'
 
 enableScreens();
 
@@ -17,7 +18,7 @@ const options = {
   headerBackTitle: 'Back to list',
   headerBackTitleVisible: true,
   headerStyle: {
-    backgroundColor: 'white', 
+    backgroundColor: '#f8f8f8', 
   },
   headerTintColor: '#385775',
 
@@ -40,6 +41,7 @@ const App = () => {
             component={AddCrypto}
             options={options}
           />
+             <Stack.Screen name="CryptoDetails" component={CryptoDetails} options={options} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

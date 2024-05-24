@@ -1,38 +1,44 @@
 import React from 'react';
-import { View, Text, Button, StyleSheet, Image } from 'react-native';
+import { View, Text, Button, StyleSheet, TouchableOpacity } from 'react-native';
 import { useDispatch } from 'react-redux';
-// import { removeCrypto } from '../redux/actions/cryptoActions';
+import { deleteCrypto } from '../redux/reducers/cryptoReducers';
 import { formatNumber } from '../utils/numberUtils';
 import PropTypes from 'prop-types';
-// import Crypto from 'rn-crypto-icons-svg'
 import CryptoIcon from 'rn-crypto-icons-svg';
-
+import { useNavigation } from '@react-navigation/native';
 
 const CryptoItem = ({ crypto }) => {
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
+  const navigation = useNavigation();
 
   return (
-    <View style={styles.container}>
-      <View style={styles.row}>
+    <TouchableOpacity onPress={() => navigation.navigate('CryptoDetails', { crypto })}>
+      <View style={styles.container}>
         <View style={styles.row}>
-        <CryptoIcon name={crypto?.symbol?.toLowerCase()} size={48} shape='circular' />
-          <View style={styles.justifyCenter}>
-            <Text style={styles.fontBold}>{crypto?.name}</Text>
-            <Text>{crypto?.symbol}</Text>
+          <View style={styles.row}>
+            <CryptoIcon name={crypto?.symbol?.toLowerCase()} size={48} shape='circular' />
+            <View style={styles.justifyCenter}>
+              <Text style={styles.fontBold}>{crypto?.name}</Text>
+              <Text>{crypto?.symbol}</Text>
+            </View>
+          </View>
+          <View style={styles.alignEnd}>
+          <TouchableOpacity onPress={() => dispatch(deleteCrypto(crypto.id))} style={styles.customButton}>
+          <Text style={styles.customButtonText}> x</Text>
+        </TouchableOpacity>
+            <Text style={styles.fontBold}>
+              $ {formatNumber(crypto?.market_data?.price_usd)}
+            </Text>
+            <Text style={styles.change}>
+              {formatNumber(crypto?.market_data?.percent_change_usd_last_24_hours)}%
+            </Text>
+             
           </View>
         </View>
-        <View style={styles.alignEnd}>
-          <Text style={styles.fontBold}>
-            $ {formatNumber(crypto?.market_data?.price_usd)}
-          </Text>
-          <Text style={styles.change}>
-            {formatNumber(crypto?.market_data?.percent_change_usd_last_24_hours)}%
-          </Text>
-        </View>
+       
+        <View style={styles.horizontalLine} />
       </View>
-      {/* <Button title="Remove" onPress={() => dispatch(removeCrypto(crypto?.symbol))} /> */}
-      <View style={styles.horizontalLine} />
-    </View>
+    </TouchableOpacity>
   );
 };
 
@@ -79,6 +85,16 @@ const styles = StyleSheet.create({
     borderBottomColor: '#ccc',
     borderBottomWidth: 1,
     marginTop: 20,
+  },
+  customButton: {
+    padding: 5,
+    borderRadius: 5,
+    backgroundColor: '#f8f8f8',
+  },
+  customButtonText: {
+    color: 'red',
+    fontSize: 18,
+    fontWeight: 'bold',
   },
 });
 
