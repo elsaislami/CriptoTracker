@@ -34,7 +34,7 @@ const HomeScreen = () => {
         data={cryptos}
         showsVerticalScrollIndicator={false}
         keyExtractor={item => item.id}
-        renderItem={({ item }) =>{item.symbol && <CryptoItem crypto={item.data?.data} />}}
+        renderItem={({ item }) => <CryptoItem crypto={item.data?.data} />}
       />
       <TouchableOpacity onPress={() => navigation.navigate('AddCrypto')} style={styles.addButton}>
         <Text style={styles.addButtonText}>+ Add Cryptocurrency</Text>

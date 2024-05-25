@@ -13,7 +13,7 @@ const CryptoItem = ({ crypto }) => {
 
   return (
     <TouchableOpacity onPress={() => navigation.navigate('CryptoDetails', { crypto })}>
-      <View style={styles.container}>
+    {crypto?.symbol &&  <View style={styles.container}>
         <View style={styles.row}>
           <View style={styles.row}>
             <CryptoIcon name={crypto?.symbol?.toLowerCase()} size={48} shape='circular' />
@@ -37,7 +37,7 @@ const CryptoItem = ({ crypto }) => {
         </View>
        
         <View style={styles.horizontalLine} />
-      </View>
+      </View>}
     </TouchableOpacity>
   );
 };
