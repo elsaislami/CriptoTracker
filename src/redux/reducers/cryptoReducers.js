@@ -15,7 +15,7 @@ export const fetchCryptoData = createAsyncThunk(
       const data = res.data;
       return { id: cryptoId, data };
     } catch (err) {
-      console.log(err)
+      console.log("here",err)
       return rejectWithValue('Crypto data invalid');
     }
   },
